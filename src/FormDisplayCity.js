@@ -1,61 +1,66 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+import "./weather.css"; // Make sure you have this css file
+
 export default function FormDisplayCity() {
   const [city, setCity] = useState("");
-  const [weather, setWeather] = useState([]);
+  const [weather, setWeather] = useState({ ready: false });
+
   function handleSetCity(event) {
-    event.preventDefault();
     setCity(event.target.value);
   }
-  function displayWeather(response) {
-    const windSpeedMps = response.data.wind.speed;
-    const windSpeedMph = Math.round(windSpeedMps * 2.23694);
 
-    const icon = response.data.weather[0].icon;
-    iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
-    const weatherData = [
-      { label: "Temperature", value: Math.round(response.data.main.temp) },
-      { label: "Humidity", value: response.data.main.humidity },
-      { label: "Wind", value: `${windSpeedMph} mph` },
-      { label: "Description", value: response.data.weather[0].description },
-      { label: "Icon", value: response.data.weather[0].description },
-    ];
-    setWeather(weatherData);
+  function displayWeather(response) {
+    setWeather({
+      ready: true,
+      temperature: Math.round(response.data.main.temp),
+      humidity: response.data.main.humidity,
+      wind: Math.round(response.data.wind.speed * 2.23694),
+      description: response.data.weather[0].description,
+      iconUrl: `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
+      city: response.data.name,
+    });
   }
+
   function handleSubmit(event) {
     event.preventDefault();
     const apiKey = "be745f8927e2f0a47f01275b3b2e3e0a";
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
-
     axios.get(apiUrl).then(displayWeather);
   }
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          className="userCity"
-          name="city"
-          value={city}
-          type="text"
-          placeholder="enter city here"
-          onChange={handleSetCity}
-        />
-        <input className="btn" type="submit" value="Search" />
-      </form>
-      {weather.length > 0 && (
-        <ul>
-          {weather.map((item, index) => (
-            <li key={index}>
-              {item.label === "Icon" ? (
-                <img src={iconUrl} />
-              ) : (
-                `${item.label}: ${item.value}`
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+
+  let form = (
+    <form onSubmit={handleSubmit}>
+      <input
+        className="userCity"
+        name="city"
+        value={city}
+        type="text"
+        placeholder="enter city here"
+        onChange={handleSetCity}
+      />
+      <input className="btn" type="submit" value="Search" />
+    </form>
   );
+
+  if (weather.ready) {
+    return (
+      <div>
+        {form}
+        <h2>{weather.city}</h2>
+        <ul>
+          <li>Temperature: {weather.temperature}°F</li>
+          <li>Humidity: {weather.humidity}%</li>
+          <li>Wind: {weather.wind} mph</li>
+          <li className="description">{weather.description}</li>
+          <li>
+            <img src={weather.iconUrl} alt={weather.description} />
+          </li>
+        </ul>
+      </div>
+    );
+  } else {
+    return <div>{form}</div>;
+  }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import Weather from "./Weather";
-import FormDisplayCity from "./FormDisplayCity";
+
 import "./App.css";
 
 function App() {
@@ -8,8 +8,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>SeaShell Shorecast</h1>
-        <Weather city="Tokyo" />
-        <FormDisplayCity />
+        <Weather />
       </header>
     </div>
   );
