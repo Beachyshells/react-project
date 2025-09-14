@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import "./weather.css"; // Make sure you have this css file
+import "./weather.css";
 
 export default function FormDisplayCity() {
   const [city, setCity] = useState("");
