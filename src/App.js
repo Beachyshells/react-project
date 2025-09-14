@@ -16,6 +16,7 @@ function App() {
           href="https://www.shecodes.io/graduates/169424-michelle-durham"
           target="_blank"
           rel="noreferrer"
+          className=".App-link"
         >
           {" "}
           Michelle Durham{" "}
@@ -25,6 +26,7 @@ function App() {
           href="https://github.com/Beachyshells/react-project"
           target="_blank"
           rel="noreferrer"
+          className=".App-link"
         >
           Github
         </a>{" "}
@@ -33,6 +35,7 @@ function App() {
           href="https://seashells-shorecast.netlify.app/"
           target="_blank"
           rel="noreferrer"
+          className=".App-link"
         >
           Netlify
         </a>{" "}
