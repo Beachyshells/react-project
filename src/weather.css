@@ -1,3 +1,9 @@
 .Weather {
   color: rgb(30, 149, 219);
 }
+
+.userCity {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
